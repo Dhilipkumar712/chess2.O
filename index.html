@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>ChessMaster — Play. Learn. Compete.</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+  <link rel="stylesheet" href="css/board.css"/>
+  <link rel="stylesheet" href="css/pages.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- LOADING SCREEN -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loader-content">
+      <div class="loader-icon">♚</div>
+      <div class="loader-bar-track"><div class="loader-bar-fill"></div></div>
+      <p class="loader-text">Preparing your board…</p>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo" onclick="showPage('home')">
+        <span class="logo-icon">♚</span>
+        <span class="logo-text">ChessMaster</span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#" class="nav-link active" data-page="home" onclick="showPage('home')">Home</a></li>
+        <li><a href="#" class="nav-link" data-page="play" onclick="showPage('play')">Play</a></li>
+        <li><a href="#" class="nav-link" data-page="community" onclick="showPage('community')">Community</a></li>
+        <li><a href="#" class="nav-link" data-page="trainer" onclick="showPage('trainer')">AI Trainer</a></li>
+        <li><a href="#" class="nav-link" data-page="challenge" onclick="showPage('challenge')">Challenge</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+          <span class="theme-icon" id="theme-icon">🌙</span>
+        </button>
+        <button class="btn btn-outline btn-sm nav-auth-btn" onclick="openModal('login-modal')">Log In</button>
+        <button class="btn btn-primary btn-sm nav-auth-btn" onclick="openModal('signup-modal')">Sign Up</button>
+        <button class="nav-hamburger" id="hamburger" onclick="toggleMobileMenu()">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- LOGIN MODAL -->
+  <div class="modal-overlay" id="login-modal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('login-modal')">✕</button>
+      <div class="modal-header">
+        <span class="modal-icon">♚</span>
+        <h2>Welcome Back</h2>
+        <p>Log in to your ChessMaster account</p>
+      </div>
+      <form class="modal-form" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" placeholder="you@example.com" required/>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" placeholder="••••••••" required/>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Log In</button>
+        <p class="modal-switch">Don't have an account? <a href="#" onclick="switchModal('login-modal','signup-modal')">Sign Up</a></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- SIGNUP MODAL -->
+  <div class="modal-overlay" id="signup-modal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('signup-modal')">✕</button>
+      <div class="modal-header">
+        <span class="modal-icon">♚</span>
+        <h2>Create Account</h2>
+        <p>Join the ChessMaster community</p>
+      </div>
+      <form class="modal-form" onsubmit="handleSignup(event)">
+        <div class="form-group">
+          <label for="signup-name">Username</label>
+          <input type="text" id="signup-name" placeholder="Your username" required/>
+        </div>
+        <div class="form-group">
+          <label for="signup-email">Email</label>
+          <input type="email" id="signup-email" placeholder="you@example.com" required/>
+        </div>
+        <div class="form-group">
+          <label for="signup-password">Password</label>
+          <input type="password" id="signup-password" placeholder="••••••••" required/>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+        <p class="modal-switch">Already have an account? <a href="#" onclick="switchModal('signup-modal','login-modal')">Log In</a></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- PAGES WRAPPER -->
+  <main class="pages-wrapper">
+
+    <!-- HOME -->
+    <section class="page page-active" id="page-home">
+      <div class="hero">
+        <div class="hero-content">
+          <h1 class="hero-title">Master the <span class="accent">Royal Game</span></h1>
+          <p class="hero-subtitle">Play against friends or AI, learn from trainers, and compete with players worldwide — all in one beautiful interface.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-lg" onclick="showPage('play')">Start Playing</button>
+            <button class="btn btn-outline btn-lg" onclick="showPage('trainer')">Learn with AI</button>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-board-preview">
+            <div class="floating-piece fp1">♛</div>
+            <div class="floating-piece fp2">♞</div>
+            <div class="floating-piece fp3">♜</div>
+            <div class="floating-piece fp4">♝</div>
+          </div>
+        </div>
+      </div>
+      <div class="features-section">
+        <h2 class="section-title">Why ChessMaster?</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🤖</div>
+            <h3>Smart AI Bot</h3>
+            <p>Three difficulty levels — Beginner, Medium, and Pro. The bot adapts to challenge you at every stage.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">👥</div>
+            <h3>Play with Friends</h3>
+            <p>Challenge a friend on the same device or invite players from the community.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🎓</div>
+            <h3>AI Trainer</h3>
+            <p>Get real-time move suggestions, opening guides, and endgame strategies.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🌗</div>
+            <h3>Dark &amp; Light Theme</h3>
+            <p>Switch between elegant dark and clean light themes to suit your mood.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLAY / GAME SETUP -->
+    <section class="page" id="page-play">
+      <div class="game-setup" id="game-setup">
+        <h2 class="section-title">Set Up Your Game</h2>
+        <p class="section-sub">Choose your opponent and start playing.</p>
+        <div class="setup-cards">
+          <div class="setup-card" id="setup-vs-player" onclick="selectOpponent('player')">
+            <div class="setup-card-icon">👥</div>
+            <h3>Player vs Player</h3>
+            <p>Play with a friend on the same board.</p>
+          </div>
+          <div class="setup-card" id="setup-vs-bot" onclick="selectOpponent('bot')">
+            <div class="setup-card-icon">🤖</div>
+            <h3>Player vs Bot</h3>
+            <p>Challenge the AI at your skill level.</p>
+          </div>
+        </div>
+        <div class="difficulty-section hidden" id="difficulty-section">
+          <h3 class="difficulty-title">Select Bot Difficulty</h3>
+          <div class="difficulty-cards">
+            <div class="diff-card" data-level="beginner" onclick="selectDifficulty('beginner')">
+              <div class="diff-icon">🌱</div>
+              <h4>Beginner</h4>
+              <p>Thinks 2 moves ahead. A solid warm-up opponent.</p>
+            </div>
+            <div class="diff-card" data-level="medium" onclick="selectDifficulty('medium')">
+              <div class="diff-icon">⚡</div>
+              <h4>Medium</h4>
+              <p>Thinks 4+ moves ahead with tactical awareness. No mercy.</p>
+            </div>
+            <div class="diff-card" data-level="pro" onclick="selectDifficulty('pro')">
+              <div class="diff-icon">🏆</div>
+              <h4>Pro</h4>
+              <p>6+ moves deep, hunts checkmates aggressively. Prepare to lose.</p>
+            </div>
+          </div>
+        </div>
+        <div class="setup-actions hidden" id="setup-actions">
+          <button class="btn btn-primary btn-lg" onclick="startGame()">Start Game</button>
+        </div>
+      </div>
+
+      <!-- Game Board -->
+      <div class="game-container hidden" id="game-container">
+        <div class="game-top-bar">
+          <div class="player-info player-black" id="player-black-info">
+            <span class="player-avatar">♚</span>
+            <div>
+              <span class="player-name" id="black-name">Black</span>
+              <span class="player-captured" id="black-captured"></span>
+            </div>
+            <span class="player-timer" id="black-timer">10:00</span>
+          </div>
+        </div>
+        <div class="board-wrapper">
+          <div class="board-coords board-coords-files"><span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span></div>
+          <div class="board-coords board-coords-ranks"><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+          <div class="chess-board" id="chess-board"></div>
+        </div>
+        <div class="game-bottom-bar">
+          <div class="player-info player-white active-turn" id="player-white-info">
+            <span class="player-avatar">♔</span>
+            <div>
+              <span class="player-name" id="white-name">White</span>
+              <span class="player-captured" id="white-captured"></span>
+            </div>
+            <span class="player-timer" id="white-timer">10:00</span>
+          </div>
+        </div>
+        <div class="game-controls">
+          <button class="btn btn-outline btn-sm" onclick="undoMove()">↩ Undo</button>
+          <button class="btn btn-outline btn-sm" onclick="resetGame()">⟳ New Game</button>
+          <button class="btn btn-outline btn-sm" onclick="resignGame()">🏳 Resign</button>
+        </div>
+        <div class="move-history" id="move-history">
+          <h4>Move History</h4>
+          <div class="moves-list" id="moves-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMMUNITY -->
+    <section class="page" id="page-community">
+      <div class="page-header">
+        <h2 class="section-title">Community</h2>
+        <p class="section-sub">Connect with fellow chess enthusiasts around the world.</p>
+      </div>
+      <div class="community-grid">
+        <div class="community-card">
+          <div class="community-card-header"><h3>💬 Discussion Forum</h3></div>
+          <div class="community-threads">
+            <div class="thread-item">
+              <div class="thread-avatar">A</div>
+              <div class="thread-content">
+                <h4>Best opening for beginners?</h4>
+                <p>I just started playing chess and would love some tips on openings…</p>
+                <span class="thread-meta">by Alex • 24 replies • 2h ago</span>
+              </div>
+            </div>
+            <div class="thread-item">
+              <div class="thread-avatar">M</div>
+              <div class="thread-content">
+                <h4>How to improve endgame technique</h4>
+                <p>I keep losing in the endgame. Any resources or drills?</p>
+                <span class="thread-meta">by Maya • 18 replies • 5h ago</span>
+              </div>
+            </div>
+            <div class="thread-item">
+              <div class="thread-avatar">R</div>
+              <div class="thread-content">
+                <h4>Queen's Gambit — accepted or declined?</h4>
+                <p>Let's debate! Which response do you prefer as black?</p>
+                <span class="thread-meta">by Ravi • 42 replies • 1d ago</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="community-card">
+          <div class="community-card-header"><h3>🏅 Leaderboard</h3></div>
+          <div class="leaderboard">
+            <div class="lb-row lb-gold"><span class="lb-rank">1</span><span class="lb-name">GrandMaster_X</span><span class="lb-rating">2840</span></div>
+            <div class="lb-row lb-silver"><span class="lb-rank">2</span><span class="lb-name">QueenSlayer99</span><span class="lb-rating">2720</span></div>
+            <div class="lb-row lb-bronze"><span class="lb-rank">3</span><span class="lb-name">KnightRider</span><span class="lb-rating">2685</span></div>
+            <div class="lb-row"><span class="lb-rank">4</span><span class="lb-name">PawnStorm</span><span class="lb-rating">2610</span></div>
+            <div class="lb-row"><span class="lb-rank">5</span><span class="lb-name">CastleMaster</span><span class="lb-rating">2580</span></div>
+          </div>
+        </div>
+        <div class="community-card">
+          <div class="community-card-header"><h3>🟢 Online Players</h3></div>
+          <div class="online-players">
+            <div class="op-row"><span class="op-status"></span><span class="op-name">SilentKnight</span><span class="op-rating">1850</span><button class="btn btn-primary btn-xs" onclick="showPage('challenge')">Challenge</button></div>
+            <div class="op-row"><span class="op-status"></span><span class="op-name">RookiePlayer</span><span class="op-rating">1420</span><button class="btn btn-primary btn-xs" onclick="showPage('challenge')">Challenge</button></div>
+            <div class="op-row"><span class="op-status"></span><span class="op-name">ChessNinja</span><span class="op-rating">2100</span><button class="btn btn-primary btn-xs" onclick="showPage('challenge')">Challenge</button></div>
+            <div class="op-row"><span class="op-status"></span><span class="op-name">EndgameWiz</span><span class="op-rating">1980</span><button class="btn btn-primary btn-xs" onclick="showPage('challenge')">Challenge</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI TRAINER -->
+    <section class="page" id="page-trainer">
+      <div class="page-header">
+        <h2 class="section-title">AI Trainer</h2>
+        <p class="section-sub">Your personal chess coach — learn openings, tactics, and endgames.</p>
+      </div>
+      <div class="trainer-grid">
+        <div class="trainer-card">
+          <div class="trainer-card-icon">📖</div>
+          <h3>Opening Explorer</h3>
+          <p>Learn popular openings with interactive guides.</p>
+          <div class="trainer-openings">
+            <div class="opening-item" onclick="showTrainerTip('Sicilian Defense: 1.e4 c5 — A sharp, aggressive response to 1.e4. Black fights for the center asymmetrically.')">
+              <span>Sicilian Defense</span><span class="opening-tag">Popular</span>
+            </div>
+            <div class="opening-item" onclick="showTrainerTip('Italian Game: 1.e4 e5 2.Nf3 Nc6 3.Bc4 — A classical opening for rapid development and center control.')">
+              <span>Italian Game</span><span class="opening-tag">Classical</span>
+            </div>
+            <div class="opening-item" onclick="showTrainerTip('Queen&#39;s Gambit: 1.d4 d5 2.c4 — White offers a pawn to gain central control. Very strategic.')">
+              <span>Queen's Gambit</span><span class="opening-tag">Strategic</span>
+            </div>
+            <div class="opening-item" onclick="showTrainerTip('French Defense: 1.e4 e6 — A solid defense that leads to rich, complex positions.')">
+              <span>French Defense</span><span class="opening-tag">Solid</span>
+            </div>
+          </div>
+        </div>
+        <div class="trainer-card">
+          <div class="trainer-card-icon">🧩</div>
+          <h3>Tactics Puzzles</h3>
+          <p>Sharpen your skills with daily puzzles — forks, pins, skewers, and checkmates.</p>
+          <div class="puzzle-preview">
+            <div class="puzzle-item"><span class="puzzle-diff easy">Easy</span><span>Mate in 1 — White to play</span></div>
+            <div class="puzzle-item"><span class="puzzle-diff medium">Medium</span><span>Fork the King and Rook</span></div>
+            <div class="puzzle-item"><span class="puzzle-diff hard">Hard</span><span>Mate in 3 — Sacrifice required</span></div>
+          </div>
+          <button class="btn btn-primary btn-sm" style="margin-top:1rem" onclick="showToast('Puzzles coming soon!')">Start Puzzles</button>
+        </div>
+        <div class="trainer-card trainer-chat-card">
+          <div class="trainer-card-icon">💡</div>
+          <h3>AI Assistant</h3>
+          <p>Ask anything about chess — the AI will guide you.</p>
+          <div class="chat-box" id="chat-box">
+            <div class="chat-msg bot-msg">
+              <span class="chat-avatar">🤖</span>
+              <div class="chat-bubble">Hi! I'm your chess AI assistant. Ask me about openings, tactics, strategies, or any chess concept!</div>
+            </div>
+          </div>
+          <div class="chat-input-row">
+            <input type="text" id="chat-input" placeholder="Ask about chess…" onkeydown="if(event.key==='Enter')sendChat()"/>
+            <button class="btn btn-primary btn-sm" onclick="sendChat()">Send</button>
+          </div>
+        </div>
+      </div>
+      <div class="trainer-tip hidden" id="trainer-tip">
+        <button class="tip-close" onclick="hideTrainerTip()">✕</button>
+        <p id="trainer-tip-text"></p>
+      </div>
+    </section>
+
+    <!-- CHALLENGE -->
+    <section class="page" id="page-challenge">
+      <div class="page-header">
+        <h2 class="section-title">Challenge a Player</h2>
+        <p class="section-sub">Invite someone to a match or accept an open challenge.</p>
+      </div>
+      <div class="challenge-grid">
+        <div class="challenge-card">
+          <h3>🎯 Create Challenge</h3>
+          <form class="challenge-form" onsubmit="createChallenge(event)">
+            <div class="form-group">
+              <label for="challenge-opponent">Opponent Username</label>
+              <input type="text" id="challenge-opponent" placeholder="Enter username" required/>
+            </div>
+            <div class="form-group">
+              <label>Time Control</label>
+              <div class="time-controls">
+                <button type="button" class="time-btn active" onclick="selectTime(this)">5 min</button>
+                <button type="button" class="time-btn" onclick="selectTime(this)">10 min</button>
+                <button type="button" class="time-btn" onclick="selectTime(this)">15 min</button>
+                <button type="button" class="time-btn" onclick="selectTime(this)">30 min</button>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Send Challenge</button>
+          </form>
+        </div>
+        <div class="challenge-card">
+          <h3>📋 Open Challenges</h3>
+          <div class="open-challenges">
+            <div class="oc-row"><div class="oc-info"><span class="oc-name">SilentKnight</span><span class="oc-detail">10 min • Rated</span></div><button class="btn btn-primary btn-xs" onclick="acceptChallenge('SilentKnight')">Accept</button></div>
+            <div class="oc-row"><div class="oc-info"><span class="oc-name">RookiePlayer</span><span class="oc-detail">5 min • Casual</span></div><button class="btn btn-primary btn-xs" onclick="acceptChallenge('RookiePlayer')">Accept</button></div>
+            <div class="oc-row"><div class="oc-info"><span class="oc-name">EndgameWiz</span><span class="oc-detail">15 min • Rated</span></div><button class="btn btn-primary btn-xs" onclick="acceptChallenge('EndgameWiz')">Accept</button></div>
+          </div>
+        </div>
+        <div class="challenge-card">
+          <h3>📊 Your Recent Matches</h3>
+          <div class="recent-matches">
+            <div class="match-row win"><span class="match-result">W</span><span class="match-opponent">vs ChessNinja</span><span class="match-detail">10 min • 32 moves</span></div>
+            <div class="match-row loss"><span class="match-result">L</span><span class="match-opponent">vs GrandMaster_X</span><span class="match-detail">5 min • 28 moves</span></div>
+            <div class="match-row draw"><span class="match-result">D</span><span class="match-opponent">vs PawnStorm</span><span class="match-detail">15 min • 45 moves</span></div>
+            <div class="match-row win"><span class="match-result">W</span><span class="match-opponent">vs BishopBlitz</span><span class="match-detail">10 min • 41 moves</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- GAME OVER MODAL -->
+  <div class="modal-overlay" id="gameover-modal">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <span class="modal-icon" id="gameover-icon">🏆</span>
+        <h2 id="gameover-title">Game Over</h2>
+        <p id="gameover-msg">White wins by checkmate!</p>
+      </div>
+      <div class="gameover-actions">
+        <button class="btn btn-primary" onclick="resetGame();closeModal('gameover-modal')">Play Again</button>
+        <button class="btn btn-outline" onclick="backToSetup()">Change Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROMOTION MODAL -->
+  <div class="modal-overlay" id="promotion-modal">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2>Promote Pawn</h2>
+        <p>Choose a piece</p>
+      </div>
+      <div class="promotion-choices" id="promotion-choices"></div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast hidden" id="toast"><span id="toast-msg"></span></div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="logo-icon">♚</span>
+          <span class="logo-text">ChessMaster</span>
+        </div>
+        <div class="footer-links">
+          <a href="#" onclick="showPage('home')">Home</a>
+          <a href="#" onclick="showPage('play')">Play</a>
+          <a href="#" onclick="showPage('community')">Community</a>
+          <a href="#" onclick="showPage('trainer')">AI Trainer</a>
+          <a href="#" onclick="showPage('challenge')">Challenge</a>
+        </div>
+      </div>
+      <div class="footer-divider"></div>
+      <div class="footer-bottom">
+        <p>Designed by <strong>Dhilip Kumar</strong></p>
+        <p class="footer-copy">&copy; 2026 ChessMaster. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/chess-engine.js"></script>
+  <script src="js/bot.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
